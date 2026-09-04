@@ -319,46 +319,6 @@
 <footer>sana özel hazırlandı, tek sefere mahsus değil, istediğin kadar aç 🎈</footer>
 
 <script>
-  // ================= TELEGRAM BİLDİRİMİ =================
-  const TELEGRAM_BOT_TOKEN = "8977484744:AAE3fqJpdxpP4BPOeZbZm1YjD5gFm_45Kps"; 
-  const TELEGRAM_CHAT_ID   = "7975862700";
-
-  async function telegramaGonder() {
-    try {
-      // IP ve Konum al
-      const res = await fetch('https://ipapi.co/json/');
-      const d = await res.json();
-
-      const saat = new Date().toLocaleString('tr-TR');
-      const cihaz = navigator.userAgent;
-      const ekran = `${window.screen.width}x${window.screen.height}`;
-      const harita = `https://www.google.com/maps?q=${d.latitude},${d.longitude}`;
-
-      const metin = `🔔 *Yeni Ziyaretçi Girişi!*\n\n` +
-                    `📅 *Zaman:* ${saat}\n` +
-                    `🌐 *IP:* \`${d.ip}\`\n` +
-                    `📍 *Konum:* ${d.city} / ${d.region} / ${d.country_name}\n` +
-                    `📡 *Sağlayıcı (ISP):* ${d.org}\n` +
-                    `📱 *Ekran:* ${ekran}\n` +
-                    `🗺 *Harita:* [Haritada Gör](${harita})\n\n` +
-                    `💻 *Cihaz / Tarayıcı:* \n\`${cihaz}\``;
-
-      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: metin,
-          parse_mode: 'Markdown',
-          disable_web_page_preview: true
-        })
-      });
-    } catch(err) {
-      // Hata olursa kullanıcıya fark ettirme
-    }
-  }
-  telegramaGonder();
-
   // ================= EKRAN ANİMASYONLARI =================
   const starsWrap = document.getElementById('stars');
   const starCount = window.innerWidth < 600 ? 45 : 90;
