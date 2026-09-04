@@ -297,6 +297,11 @@
     <span class="label">kişi şu ana kadar<br>doğum gününü kutladı 🎉</span>
   </div>
 
+  <div class="counter-badge" style="margin-top:14px;">
+    <span class="count" id="loveCount">1</span>
+    <span class="label">kişi şu ana kadar<br>Burak'a gtten girmek istedi 💛 ( sattigin icindi)</span>
+  </div>
+
 </section>
 
 <section class="letter-section">
@@ -369,6 +374,29 @@
     }, delay);
   }
   scheduleNextBump();
+  // İkinci sayaç — "Burak'ı sevenler", aynı mantık ama 100 kat daha hızlı artar
+  const loveEl = document.getElementById('loveCount');
+  const LOVE_STORAGE_KEY = 'oggy-burak-sevenler-sayisi';
+  let loveCount = 1;
+  try{
+    const savedLove = localStorage.getItem(LOVE_STORAGE_KEY);
+    if(savedLove){ loveCount = parseInt(savedLove, 10) || 1; }
+  }catch(e){ /* localStorage kullanılamıyorsa 1'den başlar */ }
+  loveEl.textContent = loveCount;
+
+  function scheduleNextLoveBump(){
+    const delay = (1800 + Math.random()*4200) / 100; // aynı sayacın 100 katı hızlı
+    setTimeout(()=>{
+      loveCount += Math.random() < 0.5 ? 1 : 2;
+      loveEl.textContent = loveCount;
+      loveEl.classList.remove('bump');
+      void loveEl.offsetWidth;
+      loveEl.classList.add('bump');
+      try{ localStorage.setItem(LOVE_STORAGE_KEY, loveCount); }catch(e){ /* yoksay */ }
+      scheduleNextLoveBump();
+    }, delay);
+  }
+  scheduleNextLoveBump();
 
   // Sürpriz + konfeti
   const btn = document.getElementById('surpriseBtn');
